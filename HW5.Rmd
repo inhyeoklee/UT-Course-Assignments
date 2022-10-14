@@ -1,0 +1,250 @@
+---
+title: "HW 5"
+output: html_document
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE,  
+                      warning = FALSE, message = FALSE, 
+                      fig.align = "center",
+                      R.options = list(max.print=100))
+
+# Edit the file starting below
+```
+
+### Enter your name and EID here:
+
+**You will submit this homework assignment as a pdf file on Gradescope.**
+
+*For all questions, include the R commands/functions that you used to find your answer (show R chunk). Answers without supporting code will not receive credit. Write full sentences to describe your findings.*
+
+------------------------------------------------------------------------
+
+### Question 1: (1 pt)
+
+The dataset `world_bank_pop` is a built-in dataset in `tidyverse`. It contains information about total population and population growth, overall and more specifically in urban areas, for countries around the world. Take a look at it with `head()`. Is the data tidy? Why or why not?
+
+```{r message=FALSE}
+# Call tidyr, dplyr and ggplot2 packages within tidyverse
+library(tidyverse)
+
+# Take a look!
+head(world_bank_pop)
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 2: (1 pt)
+
+Using `dplyr` functions on `world_bank_pop`, count how many distinct countries there are in the dataset. Does this makes sense? Why or why not?
+
+```{r}
+# your code goes below (make sure to edit comment)
+ 
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 3: (2 pts)
+
+Use one of the `pivot` functions on `world_bank_pop` to create a new dataset with the years 2000 to 2017 appearing as a *numeric* variable `year`, and the different values for the indicator variable are in a variable called `value`. Save this new dataset in your environment as `myworld1`. 
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+How many lines are there per country? Why does it make sense?
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 4: (3 pts)
+
+Use another `pivot` function on `myworld1` to create a new dataset, `myworld2`, with the different categories for the indicator variable appearing as their own variables. Use `dplyr` functions to rename `SP.POP.GROW` and `SP.URB.GROW`, as `pop_growth` and `pop_urb_growth` respectively. 
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+Using `dplyr` functions, find the ratio of urban growth compared to the population growth in the world for each year. *Hint: the country code `WLD` represents the entire world.* Create a `ggplot` to display how the percentage of urban population growth has changed over the years. Why does your graph not contradict the fact that the urban population worldwide is increasing over the years?
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 5: (1 pt)
+
+In `myworld2`, which country code had the highest population growth in 2017?
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 6: (1 pt)
+
+When answering the previous, we only reported the three-letter code and (probably) have no idea what the actual country is. We will now use the package `countrycode` with a built-in dataset called `codelist` that has information about the coding system used by the World bank:
+
+```{r}
+# Paste and run the following into your console (NOT HERE): install.packages("countrycode")
+
+# Call the countrycode package
+library(countrycode)
+
+# Create a list of codes with matching country names
+mycodes <- codelist # continue this code...
+
+```
+
+Using `dplyr` functions, modify `mycodes` above to only keep the variables `continent`, `wb` (World Bank code), and `country.name.en` (country name in English). Then remove countries with missing `wb` code.
+
+How many countries are there in `mycodes`? 
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 7: (1 pt)
+
+Use a `left_join()` function to add the information of the country codes **to** `myworld2` dataset. Match the two datasets based on the World Bank code. *Note: the World Bank code does not have the same name in each dataset.* Using `dplyr` functions, only keep the data available for Europe and for the year 2017. Save this new dataset as `myeurope`.
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+How many rows are there in `this new dataset`myeurope`? What does each row represent?
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 8: (2 pts)
+
+Using `dplyr` functions on `myeurope`, only keep information for the population growth in 2017 then compare the population growth per country with `ggplot` using `geom_bar()`. Make sure to order countries in order of population growth. Which country in Europe had the lowest population growth in 2017?
+
+```{r}
+# your code goes below (make sure to edit comment)
+ 
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 9: (1 pt)
+
+When dealing with location data, we can actually visualize information on a map if we have geographic information such as latitude and longitude. Next, we will use a built-in function called `map_data()` to get geographic coordinates about countries in the world (see below). Take a look at the dataset `mapWorld`. What variables could we use to join `mapWorld` and `myeurope`? *Note: the variables do not have the same name in each dataset but they contain the same information.*
+
+```{r}
+# Geographic coordinates about countries in the world
+mapWorld <- map_data("world")
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 10: (2 pts)
+
+Use a joining function to check if any information from `myeurope` is not contained in `mapWorld`, matching the two datasets based on the country name.
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+Some countries such as United Kingdom did not have a match. Why do you think this happened? *Hint: find the distinct country names in `mapWorld`, arrange them in alphabetical order, and scroll through the names. Can you find any of these countries with no match in a slightly different form?*
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Question 11: (1 pt)
+
+Consider the `myeurope` dataset. Recode some of the country names so that the countries with no match from the previous question (with the exception of Gibraltar which is not technically a country anyway) will have a match. *Hint: use `recode()` inside `mutate()` as described in this article https://www.statology.org/recode-dplyr/.* Then add a pipe and use a `left_join()` function to add the geographic information in `mapWorld` to the countries in `myeurope`. Save this new dataset as `mymap`.
+
+```{r}
+# your code goes below (make sure to edit comment)
+
+```
+
+------------------------------------------------------------------------
+
+### Question 12: (2 pts)
+
+Let's visualize how population growth varies across European countries in 2017 with a map. With the package `ggmap`, use the R code provided below. Add a comment after each `#` to explain what each component of this code does. *Note: it would be a good idea to run the code piece by piece to see what each layer adds to the plot.*
+
+```{r}
+# Paste and run the following into your console (NOT HERE): install.packages("ggmap")
+
+# Call the ggmap package
+library(ggmap)
+
+# Build a map!
+mymap %>%
+  # Set the aesthetics
+  ggplot(aes(x = long, y = lat, group = group, fill = pop_growth)) + 
+  # Display the country borders in black
+  geom_polygon(colour = "black") +
+  # choose how the growth is displayed: color from white to blue, between -3 and 3
+  scale_fill_gradient(low = "white", high = "blue") +
+  # Give a title, label axes
+  labs(fill = "Growth" ,title = "Population Growth in 2000", 
+       x ="Longitude", y ="Latitude") +
+  # Center the map in Europe
+  xlim(-25,50) + ylim(35,70)
+```
+
+Which country had the highest population growth in Europe in 2017? *Hint: it's very tiny and very close to where I'm from! You can refer to this map for European geography: https://www.wpmap.org/europe-map-hd-with-countries/*
+
+**Your answer goes here. Write sentences in bold.**
+
+------------------------------------------------------------------------
+
+### Formatting: (2 pts)
+
+Comment your code, write full sentences, and knit your file!
+
+------------------------------------------------------------------------
+
+```{r, echo=F}
+## DO NOT DELETE THIS BLOCK!
+Sys.info()
+```
